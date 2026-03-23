@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-red: #C41E2A;
+  --color-brand-dark: #111111;
+  --color-brand-cream: #FAF9F6;
+}
+
+html {
+  scroll-behavior: smooth;
+}

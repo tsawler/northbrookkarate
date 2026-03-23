@@ -1,0 +1,27 @@
+version: '3'
+
+tasks:
+  build:
+    desc: Build Tailwind CSS (minified)
+    cmds:
+      - npm run build
+
+  dev:
+    desc: Watch and rebuild Tailwind CSS on changes
+    cmds:
+      - npm run dev
+
+  build-tag-push:
+    desc: "Builds, tags, and pushes the Docker image. Usage: task build-tag-push -- <version>"
+    preconditions:
+      - sh: 'test -n "{{.CLI_ARGS}}"'
+        msg: "You must provide a version number. Usage: task build-tag-push -- <version>"
+    deps: [build]
+    cmds:
+      - |
+        VERSION="{{.CLI_ARGS}}"
+        echo "Building and pushing tsawler/northbrook-karate:${VERSION}"
+        docker buildx build --platform linux/amd64,linux/arm64 \
+          -t tsawler/northbrook-karate:${VERSION} \
+          -t tsawler/northbrook-karate:latest \
+          --push .
